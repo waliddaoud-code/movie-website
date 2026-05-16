@@ -1,0 +1,76 @@
+.movie-card {
+  position: relative;
+  border-radius: 8px;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;   /* 🔥 smaller cards */
+  height: 100%;
+  flex: 0 0 auto;
+  font-size: .9em;
+    
+
+}
+
+
+
+
+.movie-poster {
+  display: flex;
+  width: 100%;
+  height: 80%;
+  transition: all 0.3s ease-in-out;
+  flex-shrink: 0;
+
+}
+
+.movie-poster:hover{
+  scale: 1.05;
+  border-radius: 8px;
+
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+
+}
+
+
+.movie-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 5px;
+  width: 100%;
+  height: 20%;
+  text-overflow: ellipsis;
+
+}
+
+.movie-card h3 {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 10px 0 0 0;
+  font-size: 1.2em;
+}
+
+.movie-card p {
+  padding: 10px;
+  text-align: center;
+  text-overflow: ellipsis;
+
+}
+
+
+
+
+
+
+
+

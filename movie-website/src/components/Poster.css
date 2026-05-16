@@ -1,0 +1,82 @@
+/* Main carousel container */
+.poster-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  width: 100%;
+  height: 80vh; /* full screen hero style */
+}
+
+/* Hide scrollbar */
+.poster-container::-webkit-scrollbar {
+  display: none;
+}
+.poster-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Each slide */
+.poster-item {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  
+}
+
+/* Image fills full screen */
+.poster-item img {
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Dark overlay for readability */
+.poster-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2),
+    rgb(0, 0, 0)
+  );
+}
+
+/* Text overlay */
+.poster-info {
+  position: absolute;
+  bottom: 80px;
+  left: 50px;
+  max-width: 600px;
+  color: white;
+  z-index: 2;
+}
+
+.poster-info h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.poster-info p {
+  font-size: 1rem;
+  opacity: 0.85;
+  line-height: 1.4;
+  color: rgb(207, 202, 202);
+}
+
+.poster-info span {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-bottom: 10px;
+  color: rgba(252, 252, 252, 0.815);
+}
+
+.poster-info span span {
+  font-weight: bold;
+  color: rgb(240, 81, 81);
+}

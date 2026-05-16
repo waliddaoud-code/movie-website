@@ -1,0 +1,66 @@
+.navbar {
+  background: black; /* or whatever normal pages use */
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: none;
+  width: 100%;
+  z-index: 100;
+}
+
+/* homepage only */
+.absolute-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+}
+
+
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  
+}
+.navbar-brand span {
+  color: #e50914; /* Netflix red for emphasis */
+}
+.navbar-brand span:first-child {
+  color: rgb(148, 142, 142);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.fa {
+  color: #ffffff; /* Netflix red for icons */
+  transition: color 0.3s;
+}
+
+
+
+.navbar-links a {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  color: #f5efef; 
+
+}
+
+.navbar-links a:hover .fa {
+  color: #e50914; ; 
+}
+
+@media (max-width: 768px) {
+ 
+
+
+}

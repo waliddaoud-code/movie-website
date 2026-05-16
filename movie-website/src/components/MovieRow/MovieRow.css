@@ -1,0 +1,50 @@
+.movie-row {
+  width: 100%;
+  max-width: 1700px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.movie-row h2 {
+  margin-left: 1rem;
+  color: rgb(230, 230, 230);
+}
+
+.row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+
+
+.movies-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-btn {
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 100%;
+  background-color: rgb(31, 30, 30);
+  opacity: 0.4;
+  transition: all 0.2s  ;
+}
+.scroll-btn:hover {
+  opacity: 0.8;
+}
+ 
+.movies-scroll {
+  display: flex;
+  overflow-x: auto;
+  margin: auto;
+  height: 500px;
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  justify-self: center;
+  scrollbar-width: none; /* Firefox */
+}
