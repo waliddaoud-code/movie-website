@@ -1,11 +1,29 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { embedUrl } from "../services/api";
 
 import "../css/WatchMovie.css";
 
 export function WatchMovie() {
   const { id } = useParams();
+
+  const [servers, setServers] = useState([]);
+  const [currentServer, setCurrentServer] = useState("");
+
+  useEffect(() => {
+    const fetchServers = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/movies/watch");
+        const data = await res.json();
+
+        setServers(data);
+        setCurrentServer(data[0]);
+      } catch (err) {
+        console.error("Failed to load servers:", err);
+      }
+    };
+
+    fetchServers();
+  }, []);
 
   return (
     <div className="main-page">
