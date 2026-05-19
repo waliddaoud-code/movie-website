@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import "../css/WatchMovie.css";
 
-export function WatchMovie() {
+export function WatchMovie({ movies }) {
   const { id } = useParams();
 
   const [servers, setServers] = useState([]);
@@ -24,6 +24,7 @@ export function WatchMovie() {
 
     fetchServers();
   }, []);
+  console.log("movies in WatchMovie:", movies);
 
   return (
     <div className="main-page">
@@ -49,6 +50,10 @@ export function WatchMovie() {
             Server {index + 1}
           </div>
         ))}
+      </div>
+      <div className="description">
+        <h2>Description</h2>
+        <p>{movies.trending[2]?.overview}</p>
       </div>
     </div>
   );

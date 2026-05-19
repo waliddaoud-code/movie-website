@@ -1,10 +1,11 @@
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import MovieCard from "../MovieCard";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./MovieRow.css";
 
-function MovieRow({ title, movies = [] }) {
+function MovieRow({ title, movies = [], series = [] }) {
   const rowRef = useRef(null);
+  const [type, setType] = useState("movies"); // 👈 toggle state
 
   const scroll = (direction) => {
     const container = rowRef.current;
@@ -21,9 +22,29 @@ function MovieRow({ title, movies = [] }) {
     });
   };
 
+  const dataToShow = type === "movies" ? movies : series;
+
   return (
     <div className="movie-row">
-      <h2>{title}</h2>
+      <div className="top">
+        <h2>{title}</h2>
+
+        <div className="switch">
+          <div
+            className={`type ${type === "movies" ? "active" : ""}`}
+            onClick={() => setType("movies")}
+          >
+            Movies
+          </div>
+
+          <div
+            className={`type ${type === "series" ? "active" : ""}`}
+            onClick={() => setType("series")}
+          >
+            Series
+          </div>
+        </div>
+      </div>
 
       <div className="row-wrapper">
         <MdChevronLeft
@@ -33,8 +54,8 @@ function MovieRow({ title, movies = [] }) {
         />
 
         <div className="movies-scroll" ref={rowRef}>
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+          {dataToShow.map((item) => (
+            <MovieCard key={item.id} movie={item} />
           ))}
         </div>
 

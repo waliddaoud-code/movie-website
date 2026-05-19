@@ -1,41 +1,86 @@
+import Home from "./pages/Home";
+import Favorites from "./pages/Favorites";
+import NavBar from "./components/Navbar";
+import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { WatchMovie } from "./pages/WatchMovie";
 
-import Home from './pages/Home'
-import Favorites from './pages/Favorites'
-import NavBar from './components/Navbar'
-import { Route, Routes } from 'react-router-dom'
-import { WatchMovie } from './pages/WatchMovie'
-
-import './css/App.css'
-
-
-
-
+import "./css/App.css";
 
 function App() {
+  const [movies, setMovies] = useState([]);
+  const [tvShows, setTvShows] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  
-   
-  
+  useEffect(() => {
+    const loadMovies = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/movies");
 
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
 
+        const data = await response.json();
 
+        setMovies(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load movies.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    loadMovies();
 
+    const loadTvShows = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/tvshows");
 
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
 
-    return (
-    <div className="app"> 
-        <NavBar />
-      <main className='main-content'>
+        const data = await response.json();
+
+        setTvShows(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load TV shows.");
+      }
+    };
+
+    loadTvShows();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  return (
+    <div className="app">
+      <NavBar />
+      <main className="main-content">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home movies={movies} tvShows={tvShows} />}
+          />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/watch/:id" element={<WatchMovie />} />
-
+          <Route
+            path="/watch/:id"
+            element={<WatchMovie movies={movies} tvShows={tvShows} />}
+          />
         </Routes>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

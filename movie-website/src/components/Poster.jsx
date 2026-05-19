@@ -43,10 +43,7 @@ function Poster({ movies = [] }) {
     <div className="poster-container" ref={containerRef}>
       {[...movies, ...movies].map((movie, i) => (
         <div className="poster-item" key={movie.id + "-" + i}>
-          <img
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-            alt={movie.title}
-          />
+          <img src={`${movie.backdrop_path}`} alt={movie.title} />
           <div className="poster-info">
             <h1>{movie.title}</h1>
             <span>

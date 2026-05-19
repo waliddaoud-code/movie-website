@@ -5,6 +5,35 @@
   padding: 0 1rem;
 }
 
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.switch {
+  display: flex;
+  gap: 1rem;
+}
+.type {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background-color: rgb(31, 30, 30);
+  color: rgb(230, 230, 230);
+  opacity: 0.8;
+  transition: all 0.2s ease-in-out;
+}
+.type.active {
+  opacity: 1;
+  background-color: rgb(230, 230, 230);
+  color: rgb(31, 30, 30);
+}
+.type:hover {
+  color: red;
+  font-weight:700;
+
+}
+
 .movie-row h2 {
   margin-left: 1rem;
   color: rgb(230, 230, 230);

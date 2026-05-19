@@ -3,7 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 70vw;
+  margin: auto;
 }
 
 
@@ -11,11 +12,10 @@
 .movie-wrapper{
   display: flex;
   width: 100%;
-  height: 80vh;
+  margin-top: 60px;
 
   aspect-ratio: 16 / 9;
 
-  margin:  auto;
 
   overflow: hidden;
 
