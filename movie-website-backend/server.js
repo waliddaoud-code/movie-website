@@ -127,6 +127,45 @@ app.get("/movies/watch", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch movie videos" });
   }
 });
+app.get("/details/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await fetch(
+      `${process.env.BASE_URL}/movie/${id}?api_key=${process.env.API_KEY}&append_to_response=videos,credits,similar`,
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    res.json(normalizeMedia(data));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch movie details" });
+  }
+});
+
+app.get("/search", async (req, res) => {
+  const { query } = req.query;
+  console.log("Search query:", query);
+  try {
+    const response = await fetch(
+      `${process.env.BASE_URL}/search/multi?api_key=${process.env.API_KEY}&query=${encodeURIComponent(query)}&page=1`,
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+
+    res.json({
+      ...data,
+      results: data.results.map(normalizeMedia),
+    });
+    console.log("Search results:", data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch search results" });
+  }
+});
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

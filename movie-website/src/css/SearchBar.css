@@ -1,0 +1,14 @@
+.results-list {
+  list-style: none;
+  padding: 0;
+}
+.results-list li {
+  margin-bottom: 10px;
+}
+.search-button {
+  margin-left: 10px;
+}
+.search-input {
+  padding: 5px;
+  width: 200px;
+}

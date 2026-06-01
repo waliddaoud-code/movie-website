@@ -36,7 +36,7 @@
 
 .navbar-links {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .fa {
@@ -55,12 +55,34 @@
 
 }
 
+
 .navbar-links a:hover .fa {
   color: #e50914; ; 
 }
 
-@media (max-width: 768px) {
- 
-
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 
 }
+.search .search-icon:hover {
+  color: #e50914; 
+  transition: color 0.3s;
+}
+
+.results-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #000000;
+  border: 1px solid #333;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
