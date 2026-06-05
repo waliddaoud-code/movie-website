@@ -73,9 +73,10 @@ function App() {
             element={<Home movies={movies} tvShows={tvShows} />}
           />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/watch/movie/:id" element={<WatchMovie />} />
           <Route
-            path="/watch/:id"
-            element={<WatchMovie movies={movies} tvShows={tvShows} />}
+            path="/watch/tv/:id/:season/:episode"
+            element={<WatchMovie />}
           />
         </Routes>
       </main>

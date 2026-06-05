@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../css/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 
@@ -20,15 +20,7 @@ function NavBar() {
       </div>
 
       <div className="navbar-links">
-        <div className="search">
-          <FontAwesomeIcon
-            icon={faSearch}
-            color="white"
-            size="2x"
-            className="search-icon"
-          />
-          <SearchBar />
-        </div>
+        <SearchBar />
 
         <Link to="/">
           <FontAwesomeIcon

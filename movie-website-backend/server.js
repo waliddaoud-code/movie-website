@@ -117,16 +117,26 @@ app.get("/tvshows", async (req, res) => {
   }
 });
 
-app.get("/movies/watch", async (req, res) => {
+app.get("/watch/:type", async (req, res) => {
   try {
+    const { type } = req.params;
+
     const embedURL = JSON.parse(process.env.embedURL || "[]");
 
-    res.json(embedURL);
+    const servers = embedURL.map((url) => {
+      if (type === "tv") {
+        return `${url}tv`;
+      }
+      return `${url}movie`;
+    });
+
+    res.json(servers);
   } catch (error) {
-    console.error("Embed URL error:", error);
-    res.status(500).json({ error: "Failed to fetch movie videos" });
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch watch servers" });
   }
 });
+
 app.get("/details/:id", async (req, res) => {
   const { id } = req.params;
   try {

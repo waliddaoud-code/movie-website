@@ -1,13 +1,22 @@
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 import "../css/SearchBar.css";
 
 export function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [results, setResults] = useState([]);
-
+  const [showSearch, setShowSearch] = useState(false);
+  const navigate = useNavigate();
   const handleSearch = async (e) => {
     e.preventDefault();
+    if (!searchQuery.trim()) {
+      setResults([]);
+      return;
+    }
+
     try {
       const res = await fetch(
         `http://localhost:5000/search?query=${encodeURIComponent(searchQuery)}`,
@@ -19,11 +28,13 @@ export function SearchBar() {
       console.error(err);
     }
   };
-  console.log(results);
 
   return (
-    <div className="home">
-      <form onChange={handleSearch} className="search-form">
+    <div className="search">
+      <form
+        onSubmit={handleSearch}
+        className={`search-form ${showSearch ? "active" : ""}`}
+      >
         <input
           type="text"
           placeholder="Search movies..."
@@ -34,13 +45,29 @@ export function SearchBar() {
         <button type="submit" className="search-button">
           Search
         </button>
+        <ul className="results-list">
+          {results.map((item) => (
+            <li
+              key={item.id}
+              onClick={() => {
+                setShowSearch(false);
+                navigate(`/watch/${item.id}`);
+              }}
+            >
+              <img src={item.poster_path} alt={item.title} />
+              <span>{item.title}</span>
+            </li>
+          ))}
+        </ul>
       </form>
 
-      <ul className="results-list">
-        {results.map((item) => (
-          <li key={item.id}>{item.title}</li>
-        ))}
-      </ul>
+      <FontAwesomeIcon
+        icon={faSearch}
+        color="white"
+        size="2x"
+        className="search-icon"
+        onClick={() => setShowSearch(!showSearch)}
+      />
     </div>
   );
 }

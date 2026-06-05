@@ -5,7 +5,7 @@ import "./MovieRow.css";
 
 function MovieRow({ title, movies = [], series = [] }) {
   const rowRef = useRef(null);
-  const [type, setType] = useState("movies"); // 👈 toggle state
+  const [type, setType] = useState("movies");
 
   const scroll = (direction) => {
     const container = rowRef.current;
@@ -55,7 +55,7 @@ function MovieRow({ title, movies = [], series = [] }) {
 
         <div className="movies-scroll" ref={rowRef}>
           {dataToShow.map((item) => (
-            <MovieCard key={item.id} movie={item} />
+            <MovieCard key={item.id} media={item} />
           ))}
         </div>
 

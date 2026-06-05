@@ -1,30 +1,31 @@
-import "../css/MovieCard.css"
-import { useNavigate } from "react-router-dom"
+import "../css/MovieCard.css";
+import { useNavigate } from "react-router-dom";
 
+function MovieCard({ media }) {
+  const navigate = useNavigate();
 
-function MovieCard({ movie }) {
-
-    const navigate = useNavigate()
-
-    function watchMovie() {
-      navigate(`/watch/${movie.id}`)
+  function watchMovie() {
+    if (media.type === "tv") {
+      navigate(`/watch/tv/${media.id}/1/1`);
+    } else {
+      navigate(`/watch/movie/${media.id}`);
     }
-
+  }
 
   return (
     <div className="movie-card" onClick={watchMovie}>
       <div className="movie-poster">
-        <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
-        
+        <img
+          src={`https://image.tmdb.org/t/p/w500${media.poster_path}`}
+          alt={media.title}
+        />
       </div>
       <div className="movie-info">
-        <h3>{movie.title}</h3>
-        <p>{movie.release_date?.split("-")[0]}</p>
+        <h3>{media.title}</h3>
+        <p>{media.release_date?.split("-")[0]}</p>
       </div>
     </div>
-  )
-
+  );
 }
 
-
-export default MovieCard  
+export default MovieCard;
