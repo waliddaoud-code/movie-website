@@ -117,6 +117,30 @@ app.get("/tvshows", async (req, res) => {
   }
 });
 
+app.get("/tv/:id/:season", async (req, res) => {
+  const { id, season } = req.params;
+  try {
+    const response = await fetch(
+      `${process.env.BASE_URL}/tv/${id}/season/${season}?api_key=${process.env.API_KEY}`,
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+
+    res.json({
+      episodes: data.episodes,
+      season_number: data.season_number,
+      name: data.name,
+    });
+    console.log("Fetched season details:", data.name);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch season details" });
+  }
+});
+
 app.get("/watch/:type", async (req, res) => {
   try {
     const { type } = req.params;
@@ -177,6 +201,6 @@ app.get("/search", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
+app.listen(5000, "0.0.0.0", () => {
   console.log("Server is running on port 5000");
 });
