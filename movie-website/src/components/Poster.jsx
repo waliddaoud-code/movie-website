@@ -1,40 +1,35 @@
 import "./Poster.css";
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Poster({ movies = [] }) {
+  const navigate = useNavigate();
   const containerRef = useRef(null);
   const intervalRef = useRef(null);
+  console.log("Movies in Poster component:", movies);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !movies?.length) return;
+    if (!container || !movies.length) return;
 
-    const allItems = () =>
-      Array.from(container.querySelectorAll(".poster-item"));
+    const step = () => {
+      const item = container.querySelector(".poster-item");
+      if (!item) return;
 
-    const scrollStep = () => {
-      const items = allItems();
-      if (!items.length) return;
+      const move = item.offsetWidth + 16;
 
-      const step = items[0].offsetWidth + 16; // gap
+      const maxScroll = container.scrollWidth / 2;
 
-      container.scrollBy({
-        left: step,
-        behavior: "smooth",
-      });
+      const nextScroll = container.scrollLeft + move;
 
-      const halfWidth = container.scrollWidth / 2;
-
-      // 👇 when reaching second half, silently reset
-      if (container.scrollLeft >= halfWidth) {
-        container.scrollTo({
-          left: 0,
-          behavior: "auto", // IMPORTANT: no animation
-        });
+      if (nextScroll >= maxScroll) {
+        container.scrollTo({ left: 0, behavior: "auto" });
+      } else {
+        container.scrollBy({ left: move, behavior: "smooth" });
       }
     };
 
-    intervalRef.current = setInterval(scrollStep, 4000);
+    intervalRef.current = setInterval(step, 4000);
 
     return () => clearInterval(intervalRef.current);
   }, [movies]);
@@ -42,7 +37,18 @@ function Poster({ movies = [] }) {
   return (
     <div className="poster-container" ref={containerRef}>
       {[...movies, ...movies].map((movie, i) => (
-        <div className="poster-item" key={movie.id + "-" + i}>
+        <div
+          className="poster-item"
+          key={movie.id + "-" + i}
+          onClick={() =>
+            navigate(
+              movie.type === "tv"
+                ? `/watch/tv/${movie.id}/1/1`
+                : `/watch/movie/${movie.id}`,
+            )
+          }
+          style={{ cursor: "pointer" }}
+        >
           <img src={`${movie.backdrop_path}`} alt={movie.title} />
           <div className="poster-info">
             <h1>{movie.title}</h1>

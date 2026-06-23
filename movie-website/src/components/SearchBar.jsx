@@ -8,6 +8,7 @@ export function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [results, setResults] = useState([]);
+
   const [showSearch, setShowSearch] = useState(false);
   const navigate = useNavigate();
   const handleSearch = async (e) => {
@@ -51,7 +52,12 @@ export function SearchBar() {
               key={item.id}
               onClick={() => {
                 setShowSearch(false);
-                navigate(`/watch/${item.id}`);
+                if (item.type === "tv") {
+                  navigate(`/watch/tv/${item.id}/1/1`);
+                  return;
+                } else {
+                  navigate(`/watch/movie/${item.id}`);
+                }
               }}
             >
               <img src={item.poster_path} alt={item.title} />

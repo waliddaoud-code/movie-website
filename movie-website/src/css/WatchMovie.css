@@ -1,51 +1,146 @@
-.main-page{
+.main-page {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 70vw;
-  margin: auto;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: #0f0f0f;
+  color: white;
+  min-height: 100vh;
 }
 
-
-
-.movie-wrapper{
-  display: flex;
+/* 🎥 Player */
+.movie-wrapper {
   width: 100%;
-  margin-top: 60px;
-
-  aspect-ratio: 16 / 9;
-
-
-  overflow: hidden;
-
-  
+  display: flex;
+  justify-content: center;
 }
 
 .player {
   width: 100%;
-  height: 100%;
+  max-width: 1100px;
+  height: 600px;
+  border-radius: 12px;
   border: none;
-
-  display: block;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
-.servers-list{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+/* ⏭ Episode nav */
+.episode-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
-  width: 60%;
-  height: 100%;
+}
+
+.episode-nav button {
+  background: #e50914;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.episode-nav button:hover {
+  transform: scale(1.05);
+}
+
+.episode-nav button:disabled {
+  background: #333;
+  cursor: not-allowed;
+}
+
+.episode-nav span {
+  font-weight: bold;
+}
+
+/* 🖥 Servers */
+.servers-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
-.server{
-  padding: 0.5rem 10%;
-  background-color: #333;
-  color: #fff;
-  border: none;
+.server {
+  padding: 8px 14px;
+  background: #1f1f1f;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 4px;
-  text-align: center;
+  transition: 0.2s;
+  border: 1px solid transparent;
+}
+
+.server:hover {
+  border-color: #e50914;
+  transform: translateY(-2px);
+}
+
+.server.active {
+  background: #e50914;
+  color: white;
+}
+
+/* 🎬 Seasons */
+.seasons-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.seasons-list button {
+  padding: 8px 14px;
+  background: #222;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.seasons-list button:hover {
+  background: #e50914;
+}
+
+/* 📺 Episodes */
+.episode-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.episode-list button {
+  padding: 10px;
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  color: white;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.episode-list button:hover {
+  background: #e50914;
+  border-color: #e50914;
+  transform: scale(1.02);
+}
+
+/* 📝 Description */
+.description {
+  padding: 1rem;
+  background: #181818;
+  border-radius: 10px;
+}
+
+.description h2 {
+  margin-bottom: 0.5rem;
+  color: #e50914;
+}
+
+.description p {
+  color: #ddd;
+  line-height: 1.5;
 }

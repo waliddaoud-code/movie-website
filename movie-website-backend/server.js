@@ -1,18 +1,32 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import e from "express";
 import { normalizeMedia } from "./utils/normalizeMedia.js";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
-
 app.use(express.json());
 
-app.get("/movies", async (req, res) => {
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
+
+app.use(helmet());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 70, // limit each IP to 70 requests per windowMs
+  message: "Too many requests from this IP, please try again after a minute",
+});
+
+app.get("/movies", limiter, async (req, res) => {
   try {
     const results = await Promise.allSettled([
       fetch(
@@ -65,7 +79,7 @@ app.get("/movies", async (req, res) => {
   }
 });
 
-app.get("/tvshows", async (req, res) => {
+app.get("/tvshows", limiter, async (req, res) => {
   try {
     const results = await Promise.allSettled([
       fetch(
@@ -117,7 +131,7 @@ app.get("/tvshows", async (req, res) => {
   }
 });
 
-app.get("/tv/:id/:season", async (req, res) => {
+app.get("/tv/:id/:season", limiter, async (req, res) => {
   const { id, season } = req.params;
   try {
     const response = await fetch(
@@ -141,7 +155,21 @@ app.get("/tv/:id/:season", async (req, res) => {
   }
 });
 
-app.get("/watch/:type", async (req, res) => {
+app.get("/tv/:id", limiter, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await fetch(
+      `${process.env.BASE_URL}/tv/${id}?api_key=${process.env.API_KEY}`,
+    );
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch tv details" });
+  }
+});
+
+app.get("/watch/:type", limiter, async (req, res) => {
   try {
     const { type } = req.params;
 
@@ -161,7 +189,7 @@ app.get("/watch/:type", async (req, res) => {
   }
 });
 
-app.get("/details/:id", async (req, res) => {
+app.get("/details/:id", limiter, async (req, res) => {
   const { id } = req.params;
   try {
     const response = await fetch(
@@ -178,7 +206,7 @@ app.get("/details/:id", async (req, res) => {
   }
 });
 
-app.get("/search", async (req, res) => {
+app.get("/search", limiter, async (req, res) => {
   const { query } = req.query;
   console.log("Search query:", query);
   try {
