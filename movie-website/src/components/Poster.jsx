@@ -6,7 +6,6 @@ function Poster({ movies = [] }) {
   const navigate = useNavigate();
   const containerRef = useRef(null);
   const intervalRef = useRef(null);
-  console.log("Movies in Poster component:", movies);
 
   useEffect(() => {
     const container = containerRef.current;

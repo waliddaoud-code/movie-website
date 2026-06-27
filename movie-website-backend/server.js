@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { normalizeMedia } from "./utils/normalizeMedia.js";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import getCached from "./utils/getCached.js";
 
 dotenv.config();
 
@@ -28,51 +29,54 @@ const limiter = rateLimit({
 
 app.get("/movies", limiter, async (req, res) => {
   try {
-    const results = await Promise.allSettled([
-      fetch(
-        `${process.env.BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&page=1`,
-      ),
-      fetch(
-        `${process.env.BASE_URL}/trending/movie/day?api_key=${process.env.API_KEY}&page=1`,
-      ),
-      fetch(
-        `${process.env.BASE_URL}/movie/top_rated?api_key=${process.env.API_KEY}&page=1`,
-      ),
-      fetch(
-        `${process.env.BASE_URL}/trending/all/week?api_key=${process.env.API_KEY}&page=1`,
-      ),
-    ]);
+    const data = await getCached("movies-home", 60 * 60, async () => {
+      const results = await Promise.allSettled([
+        fetch(
+          `${process.env.BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&page=1`,
+        ),
+        fetch(
+          `${process.env.BASE_URL}/trending/movie/day?api_key=${process.env.API_KEY}&page=1`,
+        ),
+        fetch(
+          `${process.env.BASE_URL}/movie/top_rated?api_key=${process.env.API_KEY}&page=1`,
+        ),
+        fetch(
+          `${process.env.BASE_URL}/trending/all/week?api_key=${process.env.API_KEY}&page=1`,
+        ),
+      ]);
+      const safeJson = async (result) => {
+        if (result.status !== "fulfilled") {
+          return { results: [] };
+        }
 
-    const safeJson = async (result) => {
-      if (result.status !== "fulfilled") {
-        return { results: [] };
-      }
+        const res = result.value;
 
-      const res = result.value;
+        if (!res || !res.ok) {
+          return { results: [] };
+        }
 
-      if (!res || !res.ok) {
-        return { results: [] };
-      }
+        const text = await res.text(); // important step
 
-      const text = await res.text(); // important step
+        try {
+          return JSON.parse(text);
+        } catch (err) {
+          console.log("Invalid JSON response:", text);
+          return { results: [] };
+        }
+      };
 
-      try {
-        return JSON.parse(text);
-      } catch (err) {
-        console.log("Invalid JSON response:", text);
-        return { results: [] };
-      }
-    };
+      const [popularRes, trendingRes, topRatedRes, trendingAllRes] =
+        await Promise.all(results.map(safeJson));
 
-    const [popularRes, trendingRes, topRatedRes, trendingAllRes] =
-      await Promise.all(results.map(safeJson));
-
-    res.json({
-      popular: popularRes.results.map(normalizeMedia),
-      trending: trendingRes.results.map(normalizeMedia),
-      topRated: topRatedRes.results.map(normalizeMedia),
-      trendingAll: trendingAllRes.results.map(normalizeMedia),
+      return {
+        popular: popularRes.results.map(normalizeMedia),
+        trending: trendingRes.results.map(normalizeMedia),
+        topRated: topRatedRes.results.map(normalizeMedia),
+        trendingAll: trendingAllRes.results.map(normalizeMedia),
+      };
     });
+
+    res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch movies" });
@@ -186,23 +190,6 @@ app.get("/watch/:type", limiter, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch watch servers" });
-  }
-});
-
-app.get("/details/:id", limiter, async (req, res) => {
-  const { id } = req.params;
-  try {
-    const response = await fetch(
-      `${process.env.BASE_URL}/movie/${id}?api_key=${process.env.API_KEY}&append_to_response=videos,credits,similar`,
-    );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json();
-    res.json(normalizeMedia(data));
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch movie details" });
   }
 });
 
