@@ -85,50 +85,50 @@ app.get("/movies", limiter, async (req, res) => {
 
 app.get("/tvshows", limiter, async (req, res) => {
   try {
-    const results = await Promise.allSettled([
-      fetch(
-        `${process.env.BASE_URL}/tv/popular?api_key=${process.env.API_KEY}&page=1`,
-      ),
-      fetch(
-        `${process.env.BASE_URL}/trending/tv/day?api_key=${process.env.API_KEY}&page=1`,
-      ),
-      fetch(
-        `${process.env.BASE_URL}/tv/top_rated?api_key=${process.env.API_KEY}&page=1`,
-      ),
-    ]);
+    const data = await getCached("tvshows-home", 60 * 60, async () => {
+      const results = await Promise.allSettled([
+        fetch(
+          `${process.env.BASE_URL}/tv/popular?api_key=${process.env.API_KEY}&page=1`,
+        ),
+        fetch(
+          `${process.env.BASE_URL}/trending/tv/day?api_key=${process.env.API_KEY}&page=1`,
+        ),
+        fetch(
+          `${process.env.BASE_URL}/tv/top_rated?api_key=${process.env.API_KEY}&page=1`,
+        ),
+      ]);
 
-    const safeJson = async (result) => {
-      if (result.status !== "fulfilled") {
-        return { results: [] };
-      }
+      const safeJson = async (result) => {
+        if (result.status !== "fulfilled") {
+          return { results: [] };
+        }
 
-      const res = result.value;
+        const res = result.value;
 
-      if (!res || !res.ok) {
-        return { results: [] };
-      }
+        if (!res || !res.ok) {
+          return { results: [] };
+        }
 
-      const text = await res.text(); // important step
+        const text = await res.text(); // important step
 
-      try {
-        return JSON.parse(text);
-      } catch (err) {
-        console.log("Invalid JSON response:", text);
-        return { results: [] };
-      }
-    };
+        try {
+          return JSON.parse(text);
+        } catch (err) {
+          console.log("Invalid JSON response:", text);
+          return { results: [] };
+        }
+      };
 
-    const [popularRes, trendingRes, topRatedRes] = await Promise.all(
-      results.map(safeJson),
-    );
+      const [popularRes, trendingRes, topRatedRes] = await Promise.all(
+        results.map(safeJson),
+      );
 
-    res.json({
-      popular: popularRes.results.map(normalizeMedia),
-      trending: trendingRes.results.map(normalizeMedia),
-      topRated: topRatedRes.results.map(normalizeMedia),
+      return {
+        popular: popularRes.results.map(normalizeMedia),
+        trending: trendingRes.results.map(normalizeMedia),
+        topRated: topRatedRes.results.map(normalizeMedia),
+      };
     });
-
-    console.log(trendingRes.results.map(normalizeMedia));
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch tv shows" });
@@ -138,21 +138,29 @@ app.get("/tvshows", limiter, async (req, res) => {
 app.get("/tv/:id/:season", limiter, async (req, res) => {
   const { id, season } = req.params;
   try {
-    const response = await fetch(
-      `${process.env.BASE_URL}/tv/${id}/season/${season}?api_key=${process.env.API_KEY}`,
+    const data = await getCached(
+      `season-${id}-${season}`,
+      60 * 60 * 24,
+      async () => {
+        const response = await fetch(
+          `${process.env.BASE_URL}/tv/${id}/season/${season}?api_key=${process.env.API_KEY}`,
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const seasonData = await response.json();
+
+        return {
+          episodes: seasonData.episodes,
+          season_number: seasonData.season_number,
+          name: seasonData.name,
+        };
+      },
     );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
 
-    const data = await response.json();
-
-    res.json({
-      episodes: data.episodes,
-      season_number: data.season_number,
-      name: data.name,
-    });
-    console.log("Fetched season details:", data.name);
+    res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch season details" });
@@ -162,10 +170,16 @@ app.get("/tv/:id/:season", limiter, async (req, res) => {
 app.get("/tv/:id", limiter, async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await fetch(
-      `${process.env.BASE_URL}/tv/${id}?api_key=${process.env.API_KEY}`,
-    );
-    const data = await response.json();
+    const data = await getCached(`tv-${id}`, 60 * 60, async () => {
+      const response = await fetch(
+        `${process.env.BASE_URL}/tv/${id}?api_key=${process.env.API_KEY}`,
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return await response.json();
+    });
+
     res.json(data);
   } catch (error) {
     console.error(error);
@@ -195,21 +209,34 @@ app.get("/watch/:type", limiter, async (req, res) => {
 
 app.get("/search", limiter, async (req, res) => {
   const { query } = req.query;
-  console.log("Search query:", query);
-  try {
-    const response = await fetch(
-      `${process.env.BASE_URL}/search/multi?api_key=${process.env.API_KEY}&query=${encodeURIComponent(query)}&page=1`,
-    );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json();
 
-    res.json({
-      ...data,
-      results: data.results.map(normalizeMedia),
-    });
-    console.log("Search results:", data);
+  if (!query) {
+    return res.status(400).json({ error: "Search query is required" });
+  }
+
+  try {
+    const data = await getCached(
+      `search-${query.toLowerCase().trim()}`,
+      60 * 10, // 10 minutes
+      async () => {
+        const response = await fetch(
+          `${process.env.BASE_URL}/search/multi?api_key=${process.env.API_KEY}&query=${encodeURIComponent(query)}&page=1`,
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+
+        return {
+          ...result,
+          results: result.results.map(normalizeMedia),
+        };
+      },
+    );
+
+    res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch search results" });
