@@ -271,6 +271,9 @@ app.get("/search", limiter, async (req, res) => {
     res.status(500).json({ error: "Failed to fetch search results" });
   }
 });
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
