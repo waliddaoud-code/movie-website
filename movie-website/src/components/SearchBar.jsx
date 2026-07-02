@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { API } from "../api";
 import "../css/SearchBar.css";
 
 export function SearchBar() {
@@ -20,7 +21,7 @@ export function SearchBar() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/search?query=${encodeURIComponent(searchQuery)}`,
+        `${API}/search?query=${encodeURIComponent(searchQuery)}`,
       );
       if (!res.ok) throw new Error("Search failed");
       const data = await res.json();

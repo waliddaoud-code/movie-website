@@ -4,6 +4,7 @@ import NavBar from "./components/Navbar";
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { WatchMovie } from "./pages/WatchMovie";
+import { API } from "./api";
 
 import "./css/App.css";
 
@@ -16,7 +17,7 @@ function App() {
   useEffect(() => {
     const loadMovies = async () => {
       try {
-        const response = await fetch("http://localhost:5000/movies");
+        const response = await fetch(`${API}/movies`);
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -37,7 +38,7 @@ function App() {
 
     const loadTvShows = async () => {
       try {
-        const response = await fetch("http://localhost:5000/tvshows");
+        const response = await fetch(`${API}/tvshows`);
 
         if (!response.ok) {
           throw new Error("Network response was not ok");

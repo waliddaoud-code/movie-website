@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { API } from "../api";
 import "../css/WatchMovie.css";
 
 export function WatchMovie() {
@@ -20,7 +20,7 @@ export function WatchMovie() {
       if (isTV) return;
 
       try {
-        const res = await fetch(`http://localhost:5000/details/${id}`);
+        const res = await fetch(`${API}/details/${id}`);
         const data = await res.json();
         setMovie(data);
       } catch (err) {
@@ -35,7 +35,7 @@ export function WatchMovie() {
     const fetchShow = async () => {
       if (!isTV) return;
       try {
-        const res = await fetch(`http://localhost:5000/tv/${id}`);
+        const res = await fetch(`${API}/tv/${id}`);
         const data = await res.json();
 
         setSeasons(data.seasons);
@@ -53,7 +53,7 @@ export function WatchMovie() {
       if (!isTV) return;
 
       try {
-        const res = await fetch(`http://localhost:5000/tv/${id}/${season}`);
+        const res = await fetch(`${API}/tv/${id}/${season}`);
 
         const data = await res.json();
 
@@ -82,9 +82,7 @@ export function WatchMovie() {
   useEffect(() => {
     const fetchServers = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/watch/${isTV ? "tv" : "movie"}`,
-        );
+        const res = await fetch(`${API}/watch/${isTV ? "tv" : "movie"}`);
         const data = await res.json();
 
         setServers(data);

@@ -4,17 +4,19 @@ import dotenv from "dotenv";
 import { normalizeMedia } from "./utils/normalizeMedia.js";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import compression from "compression";
 import getCached from "./utils/getCached.js";
 
 dotenv.config();
 
 const app = express();
+app.use(compression());
 
 app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   }),
 );
@@ -27,9 +29,11 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again after a minute",
 });
 
+const PORT = process.env.PORT || 5000;
+
 app.get("/movies", limiter, async (req, res) => {
   try {
-    const data = await getCached("movies-home", 60 * 60, async () => {
+    const data = await getCached("movies-home", 60 * 60 * 2, async () => {
       const results = await Promise.allSettled([
         fetch(
           `${process.env.BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&page=1`,
@@ -85,7 +89,7 @@ app.get("/movies", limiter, async (req, res) => {
 
 app.get("/tvshows", limiter, async (req, res) => {
   try {
-    const data = await getCached("tvshows-home", 60 * 60, async () => {
+    const data = await getCached("tvshows-home", 60 * 60 * 2, async () => {
       const results = await Promise.allSettled([
         fetch(
           `${process.env.BASE_URL}/tv/popular?api_key=${process.env.API_KEY}&page=1`,
@@ -129,6 +133,7 @@ app.get("/tvshows", limiter, async (req, res) => {
         topRated: topRatedRes.results.map(normalizeMedia),
       };
     });
+    res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch tv shows" });
@@ -140,7 +145,7 @@ app.get("/tv/:id/:season", limiter, async (req, res) => {
   try {
     const data = await getCached(
       `season-${id}-${season}`,
-      60 * 60 * 24,
+      60 * 60 * 24 * 7,
       async () => {
         const response = await fetch(
           `${process.env.BASE_URL}/tv/${id}/season/${season}?api_key=${process.env.API_KEY}`,
@@ -170,7 +175,7 @@ app.get("/tv/:id/:season", limiter, async (req, res) => {
 app.get("/tv/:id", limiter, async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await getCached(`tv-${id}`, 60 * 60, async () => {
+    const data = await getCached(`tv-${id}`, 60 * 60 * 24 * 2, async () => {
       const response = await fetch(
         `${process.env.BASE_URL}/tv/${id}?api_key=${process.env.API_KEY}`,
       );
@@ -207,6 +212,30 @@ app.get("/watch/:type", limiter, async (req, res) => {
   }
 });
 
+app.get("/details/:id", limiter, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await getCached(
+      `details-${id}`,
+      60 * 60 * 24 * 2,
+      async () => {
+        const response = await fetch(
+          `${process.env.BASE_URL}/movie/${id}?api_key=${process.env.API_KEY}&append_to_response=videos,credits,similar`,
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return await response.json();
+      },
+    );
+
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch details" });
+  }
+});
+
 app.get("/search", limiter, async (req, res) => {
   const { query } = req.query;
 
@@ -217,7 +246,7 @@ app.get("/search", limiter, async (req, res) => {
   try {
     const data = await getCached(
       `search-${query.toLowerCase().trim()}`,
-      60 * 10, // 10 minutes
+      60 * 30, // 30 minutes
       async () => {
         const response = await fetch(
           `${process.env.BASE_URL}/search/multi?api_key=${process.env.API_KEY}&query=${encodeURIComponent(query)}&page=1`,
@@ -243,6 +272,6 @@ app.get("/search", limiter, async (req, res) => {
   }
 });
 
-app.listen(5000, "0.0.0.0", () => {
-  console.log("Server is running on port 5000");
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server is running on port ${PORT}`);
 });
