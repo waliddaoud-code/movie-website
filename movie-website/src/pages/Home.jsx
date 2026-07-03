@@ -4,7 +4,7 @@ import MovieRow from "../components/MovieRow/MovieRow";
 import Poster from "../components/Poster";
 
 function Home({ movies, tvShows }) {
-  const bannerRef = useRef(null);
+  
 
   useEffect(() => {
     window.atOptions = {
