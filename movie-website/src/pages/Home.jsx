@@ -1,37 +1,32 @@
-import { useEffect } from "react";
+import { useCallback } from "react";
 import "../css/Home.css";
 import MovieRow from "../components/MovieRow/MovieRow";
 import Poster from "../components/Poster";
 
+// --- Monetag popunder config ---
+const CAP_KEY = "monetag_pop_last_shown";
+const CAP_HOURS = 24; // adjust as needed
+const ZONE_ID = "11235916";
+const TAG_SRC = "https://al5sm.com/tag.min.js";
+
 function Home({ movies, tvShows }) {
-  useEffect(() => {
-  const KEY = "last_popunder";
-  const COOLDOWN = 45 * 1000;
+  const triggerPopunder = useCallback(() => {
+    const last = localStorage.getItem(CAP_KEY);
+    const hoursSince = last ? (Date.now() - parseInt(last, 10)) / 3600000 : Infinity;
 
-  const loadPopunder = () => {
-    const last = Number(localStorage.getItem(KEY) || "0");
-
-    if (Date.now() - last < COOLDOWN) return;
+    if (hoursSince < CAP_HOURS) return; // still within cap window
 
     const script = document.createElement("script");
-    script.dataset.zone = "11235916";
-    script.src = "https://al5sm.com/tag.min.js";
-
+    script.src = TAG_SRC;
+    script.setAttribute("data-zone", ZONE_ID);
+    script.async = true;
     document.body.appendChild(script);
 
-    localStorage.setItem(KEY, Date.now().toString());
-  };
+    localStorage.setItem(CAP_KEY, Date.now().toString());
+  }, []);
 
-  loadPopunder();
-
-  const interval = setInterval(loadPopunder, COOLDOWN);
-
-  return () => {
-    clearInterval(interval);
-  };
-}, []);
   return (
-    <div className="home">
+    <div className="home" onClickCapture={triggerPopunder}>
       <Poster movies={movies.trendingAll} />
 
       <MovieRow
