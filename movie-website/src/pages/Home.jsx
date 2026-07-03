@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect} from "react";
 import "../css/Home.css";
 import MovieRow from "../components/MovieRow/MovieRow";
 import Poster from "../components/Poster";
@@ -7,9 +7,6 @@ function Home({ movies, tvShows }) {
   const bannerRef = useRef(null);
 
   useEffect(() => {
-    if (!bannerRef.current) return;
-
-    // Adsterra banner config
     window.atOptions = {
       key: "c5efd35a1bebd615a54567f408aecbe9",
       format: "iframe",
@@ -21,14 +18,7 @@ function Home({ movies, tvShows }) {
     const script = document.createElement("script");
     script.src = "https://www.highperformanceformat.com/c5efd35a1bebd615a54567f408aecbe9/invoke.js";
     script.async = true;
-
-    bannerRef.current.appendChild(script);
-
-    return () => {
-      if (bannerRef.current) {
-        bannerRef.current.innerHTML = "";
-      }
-    };
+    document.getElementById("ad-banner").appendChild(script);
   }, []);
 
   return (
