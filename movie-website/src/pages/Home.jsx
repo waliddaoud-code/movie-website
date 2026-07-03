@@ -7,28 +7,18 @@ import { useAdsterraBanner } from "../assets/useAdsterraBanner.js";
 
 
 function Home({ movies, tvShows }) {
-  useEffect(() => {
-  if (document.getElementById("container-47c07c4e1d2c3eb3abaa13087179e0d3"))
-    return;
-
-  const script = document.createElement("script");
-  script.src =
-    "https://pl30192940.effectivecpmnetwork.com/47c07c4e1d2c3eb3abaa13087179e0d3/invoke.js";
-  script.async = true;
-  script.setAttribute("data-cfasync", "false");
-
-  document.body.appendChild(script);
-
-  return () => {
-    script.remove();
-  };
-}, []);
+ 
   
   
   const bannerRef = useAdsterraBanner({
     key: "771b0ab5bd5d03c5d394b2174692df1a",
     width: 468,
     height: 60,
+  });
+  const bannerRef2 = useAdsterraBanner({
+    key: "b37c8ffb927736e7563e62d79974015f",
+    width: 320,
+    height: 50,
   });
 
   return (
@@ -44,11 +34,10 @@ function Home({ movies, tvShows }) {
 
       <MovieRow title="Trending" movies={movies.trending} series={tvShows.trending} />
 
-      <div
-  id="container-47c07c4e1d2c3eb3abaa13087179e0d3"
-  style={{ margin: "20px auto" }}
-></div>
-
+        <div
+        ref={bannerRef2}
+        style={{ width: 468, height: 60, margin: "20px auto" }}
+      ></div>
        
       
       <MovieRow title="Top Rated" movies={movies.topRated} series={tvShows.topRated} />
