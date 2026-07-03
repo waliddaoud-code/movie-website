@@ -52,6 +52,10 @@ function Home({ movies, tvShows }) {
         movies={movies.trending}
         series={tvShows.trending}
       />
+         <div
+        ref={bannerRef}
+        style={{ width: 300, height: 250, margin: "20px auto" }}
+      ></div>
 
       <MovieRow
         title="Top Rated"
