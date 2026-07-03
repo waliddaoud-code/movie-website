@@ -11,15 +11,15 @@ function Home({ movies, tvShows }) {
 
     // Adsterra banner config
     window.atOptions = {
-      key: "d55a5755b84e9d77a7f6e38327383c7b",
+      key: "771b0ab5bd5d03c5d394b2174692df1a",
       format: "iframe",
-      height: 600,
-      width: 160,
+      height: 60,
+      width: 468,
       params: {},
     };
 
     const script = document.createElement("script");
-    script.src = "https://www.highperformanceformat.com/d55a5755b84e9d77a7f6e38327383c7b/invoke.js";
+    script.src = "https://www.highperformanceformat.com/771b0ab5bd5d03c5d394b2174692df1a/invoke.js";
     script.async = true;
 
     bannerRef.current.appendChild(script);
