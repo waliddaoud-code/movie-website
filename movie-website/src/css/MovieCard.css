@@ -67,6 +67,68 @@
 
 }
 
+@media (max-width: 768px) {
+  .movie-card {
+    width: 170px;
+    font-size: 0.85rem;
+  }
+
+  .movie-card h3 {
+    font-size: 1rem;
+    padding-top: 8px;
+  }
+
+  .movie-card p {
+    font-size: 0.85rem;
+    padding: 6px;
+  }
+
+  .movie-info {
+    padding: 6px;
+    height: 50%;
+  }
+  .movie-info h3 {
+    height: 100%;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .movie-card {
+    width: 140px;
+    font-size: 0.8rem;
+  }
+
+  .movie-poster {
+    height: auto;
+  }
+
+  .movie-card h3 {
+    font-size: 0.9rem;
+    padding-top: 6px;
+  }
+
+  .movie-card p {
+    font-size: 0.75rem;
+    padding: 4px;
+  }
+
+  .movie-info {
+    padding: 4px;
+  }
+    .movie-info h3 {
+    height: 100%;
+  }
+
+  .movie-poster:hover {
+    transform: none; /* Disable hover zoom on touch devices */
+    scale: 1;
+  }
+}
+
+
+
+
 
 
 
