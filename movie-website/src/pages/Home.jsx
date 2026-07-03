@@ -14,7 +14,7 @@ function Home({ movies, tvShows }) {
       key: "c5efd35a1bebd615a54567f408aecbe9",
       format: "iframe",
       height: 250,
-      width: 800,
+      width: 300,
       params: {},
     };
 
