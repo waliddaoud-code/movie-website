@@ -44,7 +44,6 @@ function Home({ movies, tvShows }) {
       {/* Adsterra Banner */}
       <div
         ref={bannerRef}
-        style={{ width: 300, height: 250, margin: "20px auto" }}
       ></div>
 
       <MovieRow
@@ -54,7 +53,6 @@ function Home({ movies, tvShows }) {
       />
          <div
         ref={bannerRef}
-        style={{ width: 300, height: 250, margin: "20px auto" }}
       ></div>
 
       <MovieRow
