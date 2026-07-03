@@ -77,3 +77,90 @@
   justify-self: center;
   scrollbar-width: none; /* Firefox */
 }
+
+@media (max-width: 768px) {
+  .movie-row {
+    margin: 1.5rem auto;
+    padding: 0 0.5rem;
+  }
+
+  .movie-row h2 {
+    font-size: 1.3rem;
+    margin-left: 0.5rem;
+  }
+
+  .top {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .switch {
+    gap: 0.5rem;
+  }
+
+  .type {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .movies-scroll {
+    height: 360px;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .scroll-btn {
+    display: none;
+  }
+  .movies-scroll {
+  scroll-snap-type: x proximity;
+}
+
+.movie-card {
+  scroll-snap-align: start;
+}
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .movie-row {
+    margin: 1rem auto;
+    padding: 0;
+  }
+
+  .top {
+    padding: 0 0.75rem;
+  }
+
+  .movie-row h2 {
+    font-size: 1.1rem;
+    margin-left: 0;
+  }
+
+  .switch {
+    gap: 0.4rem;
+  }
+
+  .type {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .movies-scroll {
+    height: 280px;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    scroll-snap-type: x proximity;
+  }
+
+  .scroll-btn {
+    display: none;
+  }
+  .movies-scroll {
+  scroll-snap-type: x proximity;
+}
+
+.movie-card {
+  scroll-snap-align: start;
+}
+}
