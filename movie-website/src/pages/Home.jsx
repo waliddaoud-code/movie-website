@@ -1,5 +1,4 @@
-Sure — here's everything folded directly into Home.jsx, no separate component file:
-javascriptreactimport { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import "../css/Home.css";
 import MovieRow from "../components/MovieRow/MovieRow";
 import Poster from "../components/Poster";
