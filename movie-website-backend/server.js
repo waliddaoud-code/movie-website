@@ -278,3 +278,14 @@ app.get("/health", (req, res) => {
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+const SELF_URL = `${process.env.RENDER_URL}/movies`;
+
+setInterval(async () => {
+  try {
+    await fetch(SELF_URL);
+    console.log("Self-ping successful");
+  } catch (err) {
+    console.error(err);
+  }
+}, 600000);
