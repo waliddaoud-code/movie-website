@@ -9,6 +9,7 @@ function Home({ movies, tvShows }) {
   useEffect(() => {
     if (!bannerRef.current) return;
 
+    // Adsterra banner config
     window.atOptions = {
       key: "c5efd35a1bebd615a54567f408aecbe9",
       format: "iframe",
