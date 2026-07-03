@@ -61,3 +61,50 @@
   color: #e50914; ; 
 }
 
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .navbar-links {
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .navbar-links a {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .fa {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.7rem 0.8rem;
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .navbar-links {
+    gap: 0.2rem;
+  }
+
+  .navbar-links a {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.4rem;
+  }
+
+  .fa {
+    font-size: 0.85rem;
+  }
+}
