@@ -28,7 +28,9 @@ export default function AdsterraBanner({
     ref.current.appendChild(script);
 
     return () => {
-      ref.current.innerHTML = "";
+      if (ref.current) {
+    ref.current.innerHTML = "";
+  }
     };
   }, [adKey, width, height, format]);
 
