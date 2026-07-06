@@ -178,7 +178,11 @@ export function WatchMovie() {
             : movie?.overview}
         </p>
       </div>
-          <NativeAd />
+             <AdsterraBanner
+    adKey="c5efd35a1bebd615a54567f408aecbe9"
+    width={250}
+    height={300}
+/>
     </div>
   );
 }
