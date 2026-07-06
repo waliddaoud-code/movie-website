@@ -3,6 +3,7 @@ import "../css/Home.css";
 import MovieRow from "../components/MovieRow/MovieRow";
 import Poster from "../components/Poster";
 import  AdsterraBanner  from "../assets/useAdsterraBanner";
+import  NativeAd  from "../assets/NativeAd";
 
 
 function Home({ movies, tvShows }) {
@@ -15,6 +16,9 @@ function Home({ movies, tvShows }) {
       <Poster movies={movies.trendingAll} />
 
       <MovieRow title="Popular" movies={movies.popular} series={tvShows.popular} />
+
+
+         <NativeAd />
 
  
 
