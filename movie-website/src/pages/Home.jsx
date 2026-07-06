@@ -27,8 +27,8 @@ function Home({ movies, tvShows }) {
 
        <AdsterraBanner
     adKey="b37c8ffb927736e7563e62d79974015f"
-    width={420}
-    height={60}
+    width={4020}
+    height={600}
 />
        
       
