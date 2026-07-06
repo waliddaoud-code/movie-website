@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { API } from "../api";
+import  NativeAd  from "../assets/NativeAd";
 import "../css/WatchMovie.css";
 
 export function WatchMovie() {
@@ -141,6 +142,8 @@ export function WatchMovie() {
         ))}
       </div>
 
+          <NativeAd />
+
       <div className="seasons-list">
         {seasons.map((s) => (
           <button
@@ -174,6 +177,7 @@ export function WatchMovie() {
             : movie?.overview}
         </p>
       </div>
+          <NativeAd />
     </div>
   );
 }
