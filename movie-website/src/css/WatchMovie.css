@@ -143,4 +143,127 @@
 .description p {
   color: #ddd;
   line-height: 1.5;
+} 
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .main-page {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+
+  /* 🎥 Player */
+  .player {
+    width: 100%;
+    height: 220px;
+    border-radius: 8px;
+  }
+
+  /* ⏭ Episode Navigation */
+  .episode-nav {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .episode-nav button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .episode-nav span {
+    font-size: 0.95rem;
+  }
+
+  /* 🖥 Servers */
+  .servers-list {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 5px;
+    scrollbar-width: none;
+  }
+
+  .servers-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .server {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  /* 🎬 Seasons */
+  .seasons-list {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 5px;
+    scrollbar-width: none;
+  }
+
+  .seasons-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .seasons-list button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  /* 📺 Episodes */
+  .episode-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .episode-list button {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  /* 📝 Description */
+  .description {
+    padding: 0.9rem;
+  }
+
+  .description h2 {
+    font-size: 1.3rem;
+  }
+
+  .description p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+/* 📱 Small phones */
+@media (max-width: 480px) {
+  .player {
+    height: 200px;
+  }
+
+  .episode-nav {
+    justify-content: space-between;
+  }
+
+  .episode-nav button {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .episode-nav span {
+    font-size: 0.85rem;
+  }
+
+  .description h2 {
+    font-size: 1.15rem;
+  }
+
+  .description p {
+    font-size: 0.9rem;
+  }
 }
