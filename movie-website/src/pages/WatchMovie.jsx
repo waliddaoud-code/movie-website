@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { API } from "../api";
 import  NativeAd  from "../assets/NativeAd";
+import  AdsterraBanner  from "../assets/useAdsterraBanner";
 import "../css/WatchMovie.css";
 
 export function WatchMovie() {
