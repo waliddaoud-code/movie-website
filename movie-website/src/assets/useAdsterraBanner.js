@@ -1,32 +1,36 @@
-
 import { useEffect, useRef } from "react";
 
-export function useAdsterraBanner({ key, width, height, format = "iframe" }) {
-  const bannerRef = useRef(null);
+export default function AdsterraBanner({
+  adKey,
+  width,
+  height,
+  format = "iframe",
+}) {
+  const ref = useRef(null);
 
   useEffect(() => {
-    if (!bannerRef.current) return;
+    if (!ref.current) return;
+
+    ref.current.innerHTML = "";
 
     window.atOptions = {
-      key,
+      key: adKey,
       format,
-      height,
       width,
+      height,
       params: {},
     };
 
     const script = document.createElement("script");
-    script.src = `https://www.highperformanceformat.com/${key}/invoke.js`;
+    script.src = `https://www.highperformanceformat.com/${adKey}/invoke.js`;
     script.async = true;
 
-    bannerRef.current.appendChild(script);
+    ref.current.appendChild(script);
 
     return () => {
-      if (bannerRef.current) {
-        bannerRef.current.innerHTML = "";
-      }
+      ref.current.innerHTML = "";
     };
-  }, [key, width, height, format]);
+  }, [adKey, width, height, format]);
 
-  return bannerRef;
+  return <div ref={ref} style={{ width, height, margin: "20px auto" }} />;
 }
