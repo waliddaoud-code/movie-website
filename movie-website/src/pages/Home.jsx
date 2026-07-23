@@ -42,7 +42,7 @@ function Home({ movies, tvShows }) {
         movies={movies.topRated}
         series={tvShows.topRated}
       />
-      <BannerAd2 />
+      <BannerAd />
     </div>
   );
 }
