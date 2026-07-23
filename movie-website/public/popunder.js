@@ -13,11 +13,11 @@
     "chrome_enabled": true,
     "new_tab": false,
     "frequency_period": 1,
-    "frequency_count": 1,
+    "frequency_count": 3,
     "trigger_method": 1,
     "trigger_class": "",
     "trigger_delay": 0,
-    "capping_enabled": false,
+    "capping_enabled": true,
     "tcf_enabled": true,
     "agego_cross_site_enabled": true,
     "only_inline": false
