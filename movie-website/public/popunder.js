@@ -1,4 +1,3 @@
-/* global exoJsPop101 */
 (function () {
   function randStr(e, t) {
     for (
@@ -38,7 +37,7 @@
     popup_force: true,
     chrome_enabled: true,
     new_tab: false,
-    frequency_period: 10,
+    frequency_period: 1,
     frequency_count: 1,
     trigger_method: 3,
     trigger_class: "",
