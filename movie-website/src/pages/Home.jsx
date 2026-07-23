@@ -2,9 +2,8 @@ import { useEffect } from "react";
 import "../css/Home.css";
 import MovieRow from "../components/MovieRow/MovieRow";
 import Poster from "../components/Poster";
-import BannerAd from "../components/banner";
-
-
+import BannerAd from "../components/ads/banner";
+import BannerAd2 from "../components/ads/banner2";
 
 function Home({ movies, tvShows }) {
   useEffect(() => {
@@ -36,16 +35,14 @@ function Home({ movies, tvShows }) {
         movies={movies.trending}
         series={tvShows.trending}
       />
-
-      <iframe src="//a.magsrv.com/iframe.php?idzone=5984118&size=900x250" width="900" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-     
+      <BannerAd />
 
       <MovieRow
         title="Top Rated"
         movies={movies.topRated}
         series={tvShows.topRated}
       />
-     
+      <BannerAd2 />
     </div>
   );
 }
