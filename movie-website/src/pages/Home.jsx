@@ -3,6 +3,7 @@ import "../css/Home.css";
 import MovieRow from "../components/MovieRow/MovieRow";
 import Poster from "../components/Poster";
 import BannerAd from "../components/ads/banner";
+import BannerAd2 from "../components/ads/banner2";
 import Notif from "../components/ads/notif";
 
 function Home({ movies, tvShows }) {
@@ -39,7 +40,7 @@ function Home({ movies, tvShows }) {
         series={tvShows.trending}
       />
       <div className="banner-container">
-        <BannerAd />
+        <BannerAd2 />
       </div>
 
       <MovieRow

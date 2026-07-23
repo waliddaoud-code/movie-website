@@ -9,8 +9,8 @@ export default function BannerAd2() {
     adRef.current.innerHTML = "";
 
     const ins = document.createElement("ins");
-    ins.className = "eas6a97888e2";
-    ins.setAttribute("data-zoneid", "5984156");
+    ins.className = "eas6a97888e20";
+    ins.setAttribute("data-zoneid", "5984168");
 
     adRef.current.appendChild(ins);
 
