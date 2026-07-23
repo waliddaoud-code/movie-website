@@ -36,6 +36,8 @@ function Home({ movies, tvShows }) {
         movies={movies.trending}
         series={tvShows.trending}
       />
+
+      <iframe src="//a.magsrv.com/iframe.php?idzone=5984118&size=900x250" width="900" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
      
 
       <MovieRow
