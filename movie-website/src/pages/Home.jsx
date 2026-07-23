@@ -28,14 +28,18 @@ function Home({ movies, tvShows }) {
         series={tvShows.popular}
       />
 
-      <BannerAd />
+      <div className="banner-container">
+        <BannerAd />
+      </div>
 
       <MovieRow
         title="Trending"
         movies={movies.trending}
         series={tvShows.trending}
       />
-      <BannerAd style={{ margin: "auto" }} />
+      <div className="banner-container">
+        <BannerAd />
+      </div>
 
       <MovieRow
         title="Top Rated"

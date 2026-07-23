@@ -54,7 +54,17 @@
   background-color: aliceblue;
   flex-shrink: 0;
 }
-
+.banner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 20px 0;
+}
+.banner-container ins {
+  display: block;
+  margin: 0 auto;
+}
 
 
 @media (max-width: 768px) {
