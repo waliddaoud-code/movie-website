@@ -36,14 +36,14 @@ function Home({ movies, tvShows }) {
         movies={movies.trending}
         series={tvShows.trending}
       />
-      <BannerAd />
+     
 
       <MovieRow
         title="Top Rated"
         movies={movies.topRated}
         series={tvShows.topRated}
       />
-      <BannerAd />
+     
     </div>
   );
 }
