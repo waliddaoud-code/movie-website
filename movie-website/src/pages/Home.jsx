@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import "../css/Home.css";
 import MovieRow from "../components/MovieRow/MovieRow";
 import Poster from "../components/Poster";
+import BannerAd from "../components/banner";
+
+
 
 function Home({ movies, tvShows }) {
   useEffect(() => {
