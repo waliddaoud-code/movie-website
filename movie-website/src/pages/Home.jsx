@@ -29,11 +29,14 @@ function Home({ movies, tvShows }) {
         series={tvShows.popular}
       />
 
+      <BannerAd />
+
       <MovieRow
         title="Trending"
         movies={movies.trending}
         series={tvShows.trending}
       />
+      <BannerAd />
 
       <MovieRow
         title="Top Rated"
