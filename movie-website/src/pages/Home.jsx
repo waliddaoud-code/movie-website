@@ -35,7 +35,7 @@ function Home({ movies, tvShows }) {
         movies={movies.trending}
         series={tvShows.trending}
       />
-      <BannerAd />
+      <BannerAd style={{ margin: "auto" }} />
 
       <MovieRow
         title="Top Rated"
